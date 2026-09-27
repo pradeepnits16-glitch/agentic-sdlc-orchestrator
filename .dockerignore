@@ -2,4 +2,4 @@
 .idea
 agent-workspaces
 target/*
-!target/agentic-url-shortner-0.0.1-SNAPSHOT.jar
+!target/agentic-sdlc-orchestrator-0.0.1-SNAPSHOT.jar
