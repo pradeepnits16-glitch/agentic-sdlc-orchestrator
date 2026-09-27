@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class AgenticUrlShortnerApplicationTest {
+class AgenticSdlcOrchestratorTest {
     @Autowired AgenticExecutionProperties executionProperties;
 
     @Test

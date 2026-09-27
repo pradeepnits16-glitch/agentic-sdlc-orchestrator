@@ -5,10 +5,13 @@ import com.pradeep.agenticsdlcorchestrator.model.BoundedModelGateway;
 import com.pradeep.agenticsdlcorchestrator.model.DeterministicModelProvider;
 import com.pradeep.agenticsdlcorchestrator.model.JdkOpenAiTransport;
 import com.pradeep.agenticsdlcorchestrator.model.OpenAiResponsesModelProvider;
+import com.pradeep.agenticsdlcorchestrator.patch.FileOperationProposalAgent;
+import com.pradeep.agenticsdlcorchestrator.patch.ModelFileOperationProposalAgent;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tools.jackson.databind.ObjectMapper;
+import com.pradeep.agenticsdlcorchestrator.observability.PlatformMetrics;
 
 @Configuration
 public class ModelBoundaryConfiguration {
@@ -26,7 +29,14 @@ public class ModelBoundaryConfiguration {
 
     @Bean
     BoundedModelGateway boundedModelGateway(ModelProvider provider, ModelProviderProperties properties,
-                                            ObjectMapper objectMapper) {
-        return new BoundedModelGateway(provider, properties, objectMapper);
+                                            ObjectMapper objectMapper, PlatformMetrics metrics) {
+        return new BoundedModelGateway(provider, properties, objectMapper, metrics);
+    }
+
+    @Bean
+    FileOperationProposalAgent fileOperationProposalAgent(BoundedModelGateway gateway,
+                                                          ModelProviderProperties properties,
+                                                          ObjectMapper objectMapper) {
+        return new ModelFileOperationProposalAgent(gateway, properties, objectMapper);
     }
 }
